@@ -1,0 +1,49 @@
+name: 'Install Package'
+description: 'Install system packages from brew, brew cask, apt and choco.'
+branding:
+  icon: package
+  color: blue
+inputs:
+  brew:
+    description: Packages to install with brew on macOS
+    required: false
+    default: ''
+  brew-cask:
+    description: Packages to install with brew cask on macOS
+    required: false
+    default: ''
+  apt:
+    description: Packages to install with apt on Linux
+    required: false
+    default: ''
+#  yum:
+#    description: Packages to install with yum inside Docker on Linux
+#    required: false
+#    default: ''
+  choco:
+    description: Packages to install with choco on Windows
+    required: false
+    default: ''
+runs:
+  using: "composite"
+  steps:
+
+    - name: Install brew packages
+      if: runner.os == 'macOS' && inputs.brew != ''
+      run: echo "${{ inputs.brew }}" | xargs -n 1 brew install
+      shell: sh
+
+    - name: Install brew cask packages
+      if: runner.os == 'macOS' && inputs.brew-cask != ''
+      run: echo "${{ inputs.brew-cask }}" | xargs -n 1 brew cask install
+      shell: sh
+
+    - name: Install apt packages
+      if: runner.os == 'Linux' && inputs.apt != ''
+      run: sudo apt install -y ${{ inputs.apt }}
+      shell: sh
+
+    - name: Install choco packages
+      if: runner.os == 'Windows' && inputs.choco != ''
+      run: choco install ${{ inputs.choco }}
+      shell: sh
