@@ -9,6 +9,7 @@ jobs:
     name: Test on Linux
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: ./
         with:
           brew: hello yq
@@ -19,19 +20,21 @@ jobs:
     name: Test on macOS
     runs-on: macos-latest
     steps:
-    - uses: ./
-      with:
-        brew: hello yq
-        brew-cask: MacVim
-        apt: rolldice bcal
-        choco: graphviz less
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          brew: hello yq
+          brew-cask: MacVim
+          apt: rolldice bcal
+          choco: graphviz less
   windows:
     name: Test on Windows
     runs-on: windows-latest
     steps:
-    - uses: ./
-      with:
-        brew: hello yq
-        brew-cask: MacVim
-        apt: rolldice bcal
-        choco: graphviz less
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          brew: hello yq
+          brew-cask: MacVim
+          apt: rolldice bcal
+          choco: graphviz less
