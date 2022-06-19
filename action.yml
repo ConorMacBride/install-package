@@ -30,12 +30,16 @@ runs:
 
     - name: Install brew packages
       if: runner.os == 'macOS' && inputs.brew != ''
-      run: echo "${{ inputs.brew }}" | xargs -n 1 brew install
+      run: |
+        brew update
+        echo "${{ inputs.brew }}" | xargs -n 1 brew install
       shell: sh
 
     - name: Install brew cask packages
       if: runner.os == 'macOS' && inputs.brew-cask != ''
-      run: echo "${{ inputs.brew-cask }}" | xargs -n 1 brew install --cask
+      run: |
+        brew update
+        echo "${{ inputs.brew-cask }}" | xargs -n 1 brew install --cask
       shell: sh
 
     - name: Install apt packages
