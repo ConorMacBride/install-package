@@ -1,35 +1,30 @@
-# This workflow is used to test the action
+name: CI
 
 on:
   push:
   pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  linux:
-    name: Test on Linux
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./
-        with:
-          brew: hello yq
-          brew-cask: MacVim
-          apt: rolldice bcal
-          choco: graphviz less
-  macos:
-    name: Test on macOS
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./
-        with:
-          brew: hello yq
-          brew-cask: MacVim
-          apt: rolldice bcal
-          choco: graphviz less
-  windows:
-    name: Test on Windows
-    runs-on: windows-latest
+  test:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - windows-latest  # Windows Server 2022 (windows-2022)
+          - windows-2019  # Windows Server 2019
+          - ubuntu-22.04  # Ubuntu 22.04
+          - ubuntu-latest  # Ubuntu 20.04 (ubuntu-20.04)
+          - ubuntu-18.04  # Ubuntu 18.04
+          - macos-12  # macOS Monterey 12
+          - macos-latest  # macOS Big Sur 11 (macos-11)
+          - macos-10.15  # macOS Catalina 10.15
+          # https://docs.github.com/en/actions/using-jobs/choosing-the-runner-for-a-job#choosing-github-hosted-runners
     steps:
       - uses: actions/checkout@v2
       - uses: ./
