@@ -40,7 +40,9 @@ runs:
 
     - name: Install apt packages
       if: runner.os == 'Linux' && inputs.apt != ''
-      run: sudo apt install -y ${{ inputs.apt }}
+      run: |
+        sudo apt update
+        sudo apt install -y ${{ inputs.apt }}
       shell: sh
 
     - name: Install choco packages
