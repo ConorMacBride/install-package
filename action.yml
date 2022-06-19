@@ -45,5 +45,5 @@ runs:
 
     - name: Install choco packages
       if: runner.os == 'Windows' && inputs.choco != ''
-      run: choco install ${{ inputs.choco }}
+      run: choco install -y ${{ inputs.choco }}
       shell: sh
