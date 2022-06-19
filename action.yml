@@ -30,20 +30,26 @@ runs:
 
     - name: Install brew packages
       if: runner.os == 'macOS' && inputs.brew != ''
-      run: echo "${{ inputs.brew }}" | xargs -n 1 brew install
+      run: |
+        brew update
+        echo "${{ inputs.brew }}" | xargs -n 1 brew install
       shell: sh
 
     - name: Install brew cask packages
       if: runner.os == 'macOS' && inputs.brew-cask != ''
-      run: echo "${{ inputs.brew-cask }}" | xargs -n 1 brew install --cask
+      run: |
+        brew update
+        echo "${{ inputs.brew-cask }}" | xargs -n 1 brew install --cask
       shell: sh
 
     - name: Install apt packages
       if: runner.os == 'Linux' && inputs.apt != ''
-      run: sudo apt install -y ${{ inputs.apt }}
+      run: |
+        sudo apt update
+        sudo apt install -y ${{ inputs.apt }}
       shell: sh
 
     - name: Install choco packages
       if: runner.os == 'Windows' && inputs.choco != ''
-      run: choco install ${{ inputs.choco }}
+      run: choco install -y ${{ inputs.choco }}
       shell: sh
