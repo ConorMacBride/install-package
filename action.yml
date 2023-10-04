@@ -1,5 +1,5 @@
 name: 'Install Package'
-description: 'Install system packages from brew, brew cask, apt and choco.'
+description: 'Install system packages from brew, brew cask, apt, choco and pacman.'
 branding:
   icon: package
   color: blue
@@ -20,6 +20,10 @@ inputs:
 #    description: Packages to install with yum inside Docker on Linux
 #    required: false
 #    default: ''
+  choco:
+    description: Packages to install with choco on Windows
+    required: false
+    default: ''
   choco:
     description: Packages to install with choco on Windows
     required: false
@@ -52,4 +56,9 @@ runs:
     - name: Install choco packages
       if: runner.os == 'Windows' && inputs.choco != ''
       run: choco install -y ${{ inputs.choco }}
+      shell: sh
+
+    - name: Install pacman packages
+      if: runner.os == 'Windows' && inputs.pacman != ''
+      run: pacman -S ${{ inputs.choco }}
       shell: sh
